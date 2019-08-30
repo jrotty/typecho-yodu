@@ -1,23 +1,30 @@
-<?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>  <?php $this->need('header.php'); ?> <?php $this->need('sidebar.php');?>
+<?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?><?php $this->need('header.php'); ?> <?php $this->need('sidebar.php');?>
 
-<article><div id="post" class="post">
-<h1 class="title"> <?php $this->title() ?>
-</h1>
+<article><div id="post" class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<h1 class="title" itemprop="name headline"><?php $this->title() ?></h1>
 
 <div class="meta">
  <time itemprop="datePublished" content="<?php $this->date('Y-m-j  H:i'); ?>"><?php $this->date(); ?>
-    </time><?php if($this->is('post')): ?><span>in </span> <?php $this->category(',', true, '木有分类或者该分类已被删除'); ?><?php endif;?><span>read (<?php get_post_view($this) ?>)</span>
- <?php if (!empty($this->options->sidebarBlock) && in_array('bianjii', $this->options->sidebarBlock) && $this->is('post')): ?><span style="margin-left: 6px;font-size: 12px;color: #fff;background: pink;border-radius: 2px;padding: 0 3px;box-shadow: 0 0 8px pink;opacity: .8;display: inline-block;margin: 0 5px;"><?php switch ($this->author->group) {case 'administrator':_e('站长');break;case 'editor': _e('特约编辑');break; default: break;} ?><?php $this->author(); ?></span><?php endif;?>
+    </time><?php if($this->is('post')): ?><span>in </span> <?php $this->category(',', true, 'none'); ?><?php endif;?>
+<span class="xuyin"><?php if (!empty($this->options->sidebarBlock) && in_array('bianjii', $this->options->sidebarBlock) && $this->is('post')): ?><span style="margin-left: 6px;font-size: 12px;color: #fff;background: pink;border-radius: 2px;padding: 0 3px;box-shadow: 0 0 8px pink;opacity: .8;display: inline-block;margin: 0 5px;" itemprop="author" itemscope itemtype="http://schema.org/Person"><?php switch ($this->author->group) {case 'administrator':_e('站长');break;case 'editor': _e('特约编辑');break; default: break;} ?><?php $this->author(); ?></span><?php endif;?>
   <?php if($this->user->hasLogin()):?><code class="notebook">
-  <a href="<?php $this->options->adminUrl(); ?>write-<?php if($this->is('post')): ?>post<?php else: ?>page<?php endif;?>.php?cid=<?php echo $this->cid;?>" class="category-link"  target="_blank">编辑</a></code><?php else: ?><font color="red">文章转载请注明来源！</font>
-<?php endif;?>
+  <a href="<?php $this->options->adminUrl(); ?><?php if ($this->is('attachment')) : ?>media<?php else: ?>write-<?php if($this->is('post')): ?>post<?php else: ?>page<?php endif;?><?php endif;?>.php?cid=<?php echo $this->cid;?>" class="category-link"  target="_blank">编辑</a></code><?php else: ?><font color="red">文章转载请注明来源！</font>
+<?php endif;?></span>
 </div>
 
-<div class="content">
+<div class="content" itemprop="articleBody">
 
-<?php $this->content(); ?>
+<?php if (!empty($this->options->jrottytool) && in_array('postml', $this->options->jrottytool) || $this->fields->mulu): ?>
+<div id="mulu"></div><?php endif;?>
 
 
+<?php $this->content(); ?><span style="width: 100%;display:table;"></span>
+<?php if($this->is('post')): ?><?php $this->options->ads(); ?><?php endif; ?>
+
+
+
+
+<?php if (!empty($this->options->sidebarBlock) && in_array('qrcode', $this->options->sidebarBlock)): ?><?php else: ?>
 <?php if($this->is('post')): ?>
 <div style="text-align: center;margin-top: 10px;">  
 
@@ -36,16 +43,13 @@ echo '<img id="wechat_qr" src="'.theurl.'images/wx.png" alt="jrotty WeChat Pay" 
 
   <div id="ew">      
     <div id="erweima" style="display: inline-block">
-<img id="erwei_qr" src="https://api.imjad.cn/qrcode?text=<?php $this->permalink() ?>&logo=https%3A%2F%2Fapi.imjad.cn%2Fqrcode%2Flogo.png&size=200&level=M&bgcolor=%23ffffff&fgcolor=%23000000" alt="文章二维码"/>
+<img id="erwei_qr" src="https://api.imjad.cn/qrcode?text=<?php $this->permalink() ?>&logo=https://api.imjad.cn/qrcode/logo.png&size=200&level=M&bgcolor=%23ffffff&fgcolor=%23000000" alt="文章二维码"/>
  <p>扫描二维码，在手机上阅读！</p>
  </div>
     </div>
 
 
-<!--
-<a class="btn-like tag tag--primary tag--small t-link" data-cid="<?php $this->cid();?>" data-num="<?php $this->likesNum();?>"><i class="fa fa-heart-o"></i> 赞 | <span class="post-likes-num"><?php $this->likesNum();?></span></a>
 
--->
   <a id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); var ds = document.getElementById('ew');if (qr.style.display === 'block'){qr.style.display='none';ds.style.display='block'}else{ds.style.display='none';qr.style.display='block'}" class="shangbutton" target="_blank">
    赏
     </a>
@@ -54,17 +58,21 @@ echo '<img id="wechat_qr" src="'.theurl.'images/wx.png" alt="jrotty WeChat Pay" 
 
 
 <?php endif; ?>
+<?php endif; ?>
 </div>
-<?php if($this->is('post')): ?>
- <div style="margin-bottom:.5em"><div class="post-left tagses" <?php if (!empty($this->options->sidebarBlock) && in_array('bianji', $this->options->sidebarBlock)): ?><?php else: ?>style="float: none;"<?php endif;?>>
+ 
+<?php if($this->is('post')): ?><?php if (!empty($this->options->sidebarBlock) && in_array('banquan', $this->options->sidebarBlock)): ?>
+<blockquote class="cc"><p>本文基于《<a target="_blank" rel="external nofollow" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)</a>》许可协议授权
+<br>
+文章链接：<?php $this->permalink() ?> (转载时请注明本文出处及文章链接)</p></blockquote><?php endif; ?>
+<div class="post-left tagses" style="float: none;">
 <?php if(  count($this->tags) == 0 ): ?>
 <?php $this->category('', true, 'none'); ?>
 <?php else: ?>
 <?php $this->tags('', true, ' none'); ?><?php endif; ?> </div>
 
-<?php if (!empty($this->options->sidebarBlock) && in_array('bianji', $this->options->sidebarBlock)): ?>
-<div class="post-right">  最后由<a href="<?php $this->author->permalink(); ?>" data-user="<?php $this->author(); ?>"><?php $this->author(); ?></a>修改于<i><?php echo gmdate('Y-m-d H:i', $this->modified + Typecho_Widget::widget('Widget_Options')->timezone); ?> </i></div><?php endif;?>
-</div><?php endif;?>
+<?php endif;?>
+<?php if (!empty($this->options->jrottytool) && in_array('yiyan', $this->options->jrottytool)): ?><div class="ad" id="hitokoto"></div><?php endif;?>
 </div>
 <nav class="page">
   <?php thePrev($this); ?>   <?php theNext($this); ?>

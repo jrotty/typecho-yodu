@@ -42,7 +42,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                             <?php if (empty($children)) { ?>
                         <?php } else { ?>
                             <br>
- <a class="tag tag--primary tag--small t-link"  data-category="<?php $categorys->name(); ?>"  onclick="var fu = document.getElementById('<?php $categorys->name(); ?>'); if (fu.style.display === 'none') {fu.style.display='inline';} else {fu.style.display='none'}"  target="_blank"><?php $categorys->name(); ?>&nbsp;<i class="fa fa-chevron-circle-right"></i>
+ <a class="tag tag--primary tag--small t-link"  data-category="<?php $categorys->name(); ?>"  onclick="var fu = document.getElementById('<?php $categorys->name(); ?>'); if (fu.style.display === 'none') {fu.style.display='inline';} else {fu.style.display='none'}"  target="_blank"><?php $categorys->name(); ?>&nbsp;<span class="icon-you"></span>
                                         </a>
                                  <div id="<?php $categorys->name(); ?>" style="display: none;">
                                         <?php foreach ($children as $mid) { ?>
@@ -65,7 +65,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 <?php while ($categories->next()): ?>
 <?php if(count($categories->children) === 0): ?>
 
-<?php $this->widget('Widget_Archive@category-' . $categories->mid, 'pageSize=10000&type=category', 'mid=' . $categories->mid)->to($posts); ?>  
+<?php $this->widget('Widget_Archive@category-' . $categories->mid, 'pageSize=9999&&type=category', 'mid=' . $categories->mid)->to($posts); ?>  
 <div id="posts-list-<?php $categories->name(); ?>" class="archive box" data-category="<?php $categories->name(); ?>">
 
              
@@ -74,7 +74,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                     </h4>
                     <ul class="archive-posts archive-month">
 <?php while ($posts->next()): ?> 
-                            <li class="li_guidang">
+                            <li class="archive-day">
                                 <a class="guidang" href="<?php $posts->permalink(); ?>"><?php $posts->title(40); ?></a>
                                 <span class="date"><?php $posts->date(); ?></span>
                             </li>
