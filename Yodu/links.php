@@ -18,7 +18,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <div class="col-sm-9 blog-main mts">
  <h4 class="class="blog-post-title""><?php $this->title(); ?></h4>
 
-<div class="blog-post">
+<div class="blog-post content">
 
 
   <?php
