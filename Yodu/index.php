@@ -5,7 +5,7 @@
  * @package Yodu初心版
  * @author Jrotty
  * @version 2019
- * @link http://qqdie.com
+ * @link http://zezeshe.com
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /** 文章置顶 */
